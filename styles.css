@@ -16,7 +16,8 @@ header {
 	align-items: center;
 	background-color: #1F1F3D;
 	color: #FFF;
-	display: flex;
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
 	flex-direction: row;
 	grid-area: header;
 	justify-content: space-between;
@@ -36,9 +37,12 @@ section {
 	grid-area: side;
 	display: flex;
 }
+
 form {
 	color: #F3F6F7;
+	font-size: 18px;
 	border: 1px solid #3C6577;
+	width: 100%;
 }
 
 fieldset {
@@ -50,19 +54,30 @@ legend {
 }
 
 main {
-	background-color: #F3F6F7;
 	grid-area: main;
 	display: flex;
+	background-color: #F3F6F7;
+	padding: 35px;
 }
 
 input {
 	border: 1px solid #1F1F3D;
 	border-radius: 2.5px;
+	padding-left: 10px;
 }
 
 label {
 	display: inline-block;
-	margin: 15px 0px 5px 0px;
+	color: ;
+	font-size: 16px;
+	margin: 25px 0px 5px 0px;
+}
+
+article {
+	background-color: #FFF;
+	border: 1.5px solid #C7D3D8;
+	height: max-content;
+	width: 45%;
 }
 
 header input {
@@ -80,7 +95,7 @@ header div {
 	justify-content: center;
 	font-size: 16px;
 	margin: 10px 15px 0px 0px;
-	width: 100%;
+	width: 33%%;
 }
 
 form input {
@@ -94,22 +109,48 @@ form button {
 	border: none;
 	border-radius: 2.5px;
 	color: #FFF;
+	font-size: 18px;
 	margin: 15px 0px 10px 0px;
 	height: 2.5em;
 	width: 99%;
 }
 
-form div {
-	border-top: 2px solid #3C6577;
-	margin: 10px 0px 10px 0px;
+article header {
+	background-color: #FFF;
+	border-bottom: 1.5px solid #C7D3D8;
+	color: #000;
+	font-weight: bolder;
 }
 
-main {
+article output {
+
+}
+
+footer {
 	display: flex;
+	justify-content: space-between;
+	border-top: 1.5px solid #C7D3D8;
+}
+
+footer div {
+	display: block;
+	padding: 5px;
+}
+
+footer img {
+	display: inline-block;
+	height: 1.5em;
+	margin: 0px 15px;
+}
+
+footer p {
+	color: #3C6577;
+	font-size: 12px;
+	margin: 0px;
 }
 
 .search-icon {
-	background-color: #F3F6F7;
+	background-color: #C7D3D8;
 	border: 1px solid #1F1F3D;
 	border-right: 0px;
 	border-radius: 2.5px 0px 0px 2.5px;
@@ -118,7 +159,31 @@ main {
 	padding: 7.5px;
 }
 
-.task-form {
+.task-item-div {
 	display: flex;
-	flex-flow: column;
+}
+
+.task-item-field {
+	border-right: 0px;
+	border-radius: 2.5px 0px 0px 2.5px;
+	width: 84%;
+}
+
+.task-item-button {
+	background-color: #1F1F3D;
+	margin: 0px 0px 15px 0px;
+	border: none;
+	border-radius: 0px 2.5px 2.5px 0px;
+	height: 2.5em;
+	width: 15%;
+}
+
+.form-bottom {
+	border-top: 2px solid #3C6577;
+	margin: 25px 0px 10px 0px;
+	width: 100%;
+}
+
+.filter-urgent-button {
+	margin: 35px 0px 0px 0px;
 }

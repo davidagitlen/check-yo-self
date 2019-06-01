@@ -3,12 +3,12 @@
 <head>
 	<link href="normalize.css" type="text/css" rel="stylesheet">
 	<link href="styles.css" type="text/css" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,800&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700,800&display=swap" rel="stylesheet">
 	<title>Check Yo'Self</title>
 </head>
 <body>
 	<header>
-		<h1>CHECK <span>YO'</span>SELF<h1>
+		<h1>CHECK <span>YO'</span>SELF</h1>
 		<div>
 			<img src="check-yo-self-icons/search.svg" class="search-icon">
 			<input type="search" placeholder="Search">
@@ -23,16 +23,37 @@
 				<output>
 				</output>
 				<label>Task Item</label>
-				<input type="text">
+				<div class="task-item-div">
+					<input class="task-item-field" type="text">
+					<button class="task-item-button">+</button>
+				</div>
 				<button type="button">Make Task List</button>
 				<button type="button">Clear All</button>
-				<div>
-					<button type="button">Filter By Urgency</button>
+				<div class="form-bottom">
+					<button class= "filter-urgent-button" type="button">Filter By Urgency</button>
 				</div>
 			</fieldset>
 		</form>
 	</section>
 	<main>
+		<article>
+			<header> Task Title</header>
+			<output>
+				<p></p>
+			</output>
+			<footer>
+				<div>
+					<img src="check-yo-self-icons/urgent.svg" class="urgent-icon">
+					<p>URGENT</p>
+				</div>
+				<div>
+					<img src="check-yo-self-icons/delete.svg" class="delete-icon">
+					<p>DELETE</p>
+				</div>
+			</footer>			
+		</article>
 	</main>
 </body>
+<script src="todo-list.js" type="text/javascript"></script>
+<script src="main.js" type="text/javascript"></script>
 </html>
