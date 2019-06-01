@@ -8,8 +8,9 @@ body {
 	display: grid;
 	grid-template: 
 		"header header header" 75px
-		"side main main" 50vh
-		"side main main" 50vh/ 1fr 1fr 1fr;
+		"side main main" 50%
+		"side main main" 50%/ 1fr 1fr 1fr;
+	height: 100vh;
 }
 
 header {
@@ -17,10 +18,8 @@ header {
 	background-color: #1F1F3D;
 	color: #FFF;
 	display: grid;
-	grid-template-columns: repeat(3, 1fr);
-	flex-direction: row;
 	grid-area: header;
-	justify-content: space-between;
+	grid-template-columns: repeat(3, 1fr);
 	padding: 10px;
 }
 
@@ -53,11 +52,11 @@ legend {
 	display: none;
 }
 
-main {
-	grid-area: main;
-	display: flex;
-	background-color: #F3F6F7;
-	padding: 35px;
+label {
+	display: inline-block;
+	color: ;
+	font-size: 16px;
+	margin: 25px 0px 5px 0px;
 }
 
 input {
@@ -66,11 +65,12 @@ input {
 	padding-left: 10px;
 }
 
-label {
-	display: inline-block;
-	color: ;
-	font-size: 16px;
-	margin: 25px 0px 5px 0px;
+main {
+	grid-area: main;
+	display: flex;
+	background-color: #F3F6F7;
+	padding: 35px;
+	height: 100%;
 }
 
 article {
@@ -78,6 +78,16 @@ article {
 	border: 1.5px solid #C7D3D8;
 	height: max-content;
 	width: 45%;
+}
+
+header img {
+	background-color: #C7D3D8;
+	border: 1px solid #1F1F3D;
+	border-right: 0px;
+	border-radius: 2.5px 0px 0px 2.5px;
+	margin: 0px 0px 0px 0px;
+	height: 2.5em;
+	padding: 7.5px;
 }
 
 header input {
@@ -104,6 +114,16 @@ form input {
 	width: 99%;
 }
 
+form p {
+	display: flex;
+	align-items: center;
+}
+
+form img {
+	height: 2.25em;
+	padding: 7.5px;
+}
+
 form button {
 	background-color: #1F1F3D;
 	border: none;
@@ -120,21 +140,25 @@ article header {
 	border-bottom: 1.5px solid #C7D3D8;
 	color: #000;
 	font-weight: bolder;
+	width: 99%;
+	margin-left: 1px;
 }
 
 article output {
-
 }
 
-footer {
+article footer {
 	display: flex;
 	justify-content: space-between;
 	border-top: 1.5px solid #C7D3D8;
+	width: 99%;
+	margin-left: 1px;
 }
 
 footer div {
 	display: block;
 	padding: 5px;
+	text-align: center;
 }
 
 footer img {
@@ -147,16 +171,6 @@ footer p {
 	color: #3C6577;
 	font-size: 12px;
 	margin: 0px;
-}
-
-.search-icon {
-	background-color: #C7D3D8;
-	border: 1px solid #1F1F3D;
-	border-right: 0px;
-	border-radius: 2.5px 0px 0px 2.5px;
-	margin: 0px 0px 0px 0px;
-	height: 2.5em;
-	padding: 7.5px;
 }
 
 .task-item-div {
