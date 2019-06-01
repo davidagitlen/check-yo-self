@@ -21,11 +21,13 @@
 				<label>Task Title</label>
 				<input type="text" id="task-title-input">
 				<output id="item-to-add-list">
+					<ul>
+					</ul>
 				</output>
 				<label>Task Item</label>
 				<div class="task-item-div">
 					<input type="text" class="task-item-field" id="task-item-input">
-					<button class="task-item-button" id="add-task-item">+</button>
+					<button class="task-item-button" id="add-task-item" disabled>+</button>
 				</div>
 				<button type="button" id="make-task-list">Make Task List</button>
 				<button type="button" id="clear-all-button">Clear All</button>
@@ -35,7 +37,7 @@
 			</fieldset>
 		</form>
 	</section>
-	<main>
+	<main id="card-display-area">
 		<article>
 			<header> Task Title</header>
 			<output>

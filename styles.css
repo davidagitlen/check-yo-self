@@ -65,6 +65,15 @@ input {
 	padding-left: 10px;
 }
 
+li {
+	list-style: none;
+	display: flex;
+	align-items: center;
+}
+
+li img {
+}
+
 main {
 	grid-area: main;
 	display: flex;
@@ -145,6 +154,15 @@ article header {
 }
 
 article output {
+}
+
+article ul {
+	padding: 0px;
+}
+
+article img {
+	height: 2.25em;
+	padding: 7.5px;
 }
 
 article footer {
