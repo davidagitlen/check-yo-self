@@ -22,6 +22,8 @@ taskItemButton.addEventListener('click', handleTaskItemAdd);
 function handlePageLoad() {
 	createTaskItemArray();
 	refillArray();
+	repopulateTodoList();
+	console.log(todoListArray);
 }
 
 function handleTaskItemAdd(e) {
@@ -44,9 +46,15 @@ function refillArray() {
 		return;
 	} else {
 		var newArray = JSON.parse(localStorage.getItem('todoListArray')).map(function(array) {
-			return new TodoList(array.title, array.taskList, array.id, array.urgency);
+			return new TodoList(array.title, array.id, array.taskListArray, array.urgency);
 		});
 		todoListArray = newArray;
+	}
+}
+
+function repopulateTodoList() {
+	for (var i = 0; i < todoListArray.length; i++) {
+		displayTodoList(todoListArray[i]);
 	}
 }
 
@@ -59,7 +67,7 @@ function fillTaskItemArray() {
 
 function createTodoList() {
 	var newTaskItemArray = JSON.parse(localStorage.getItem('taskItemArray'))
-	var todoList = new TodoList(taskTitleInput.value, newTaskItemArray, Date.now(), false);
+	var todoList = new TodoList(taskTitleInput.value, Date.now(), newTaskItemArray, false);
 	todoListArray.push(todoList);
 	todoList.saveToStorage(todoListArray);
 	taskTitleInput.value = '';
@@ -67,14 +75,11 @@ function createTodoList() {
 	displayTodoList(todoList);
 }
 
-
 function displayTodoList(obj) {
-	var taskItemArray = JSON.parse(localStorage.getItem('taskItemArray'))
-	var listItems = createTodoListTaskList(taskItemArray);
-	cardDisplayArea.insertAdjacentHTML('afterbegin', `<article data-id=>
+	cardDisplayArea.insertAdjacentHTML('beforeend', `<article data-id=${obj.id}>
 			<header>${obj.title}</header>
 			<output>
-				${listItems}
+				${obj.taskListArray}
 			</output>
 			<footer>
 				<div>

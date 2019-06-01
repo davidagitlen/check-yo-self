@@ -74,17 +74,22 @@ li {
 li img {
 }
 
+/*maybe height auto?*/
 main {
 	grid-area: main;
-	display: flex;
 	background-color: #F3F6F7;
 	padding: 35px;
 	height: 100%;
+	columns: 2 45%;
+	column-gap: 30px;
 }
 
-article {
+main article {
 	background-color: #FFF;
 	border: 1.5px solid #C7D3D8;
+	break-inside: avoid;
+	margin-bottom: 30px;
+	min-height: 100px;
 	height: max-content;
 	width: 45%;
 }
@@ -160,7 +165,7 @@ article ul {
 	padding: 0px;
 }
 
-article img {
+article output img {
 	height: 2.25em;
 	padding: 7.5px;
 }

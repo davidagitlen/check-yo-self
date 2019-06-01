@@ -1,8 +1,8 @@
 class TodoList {
-	constructor(title, taskListArray, id, urgency){
+	constructor(title, id, taskListArray, urgency){
 		this.title = title;
-		this.taskListArray = taskListArray;
 		this.id = id;
+		this.taskListArray = taskListArray;
 		this.urgency = urgency || false;
 	}
 
