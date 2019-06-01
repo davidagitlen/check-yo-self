@@ -6,8 +6,8 @@ class TodoList {
 		this.urgency = urgency || false;
 	}
 
-	saveToStorage() {
-
+	saveToStorage(todoListArray) {
+		localStorage.setItem('todoListArray', JSON.stringify(todoListArray));
 	}
 
 	deleteFromStorage() {
