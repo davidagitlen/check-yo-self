@@ -26,6 +26,7 @@ clearAllButton.addEventListener('click', handleClearAll);
 clearAllButton.addEventListener('click', handleMakeTaskButton);
 cardDisplayArea.addEventListener('click', deleteTodoList);	
 cardDisplayArea.addEventListener('click', toggleUrgency);
+cardDisplayArea.addEventListener('click', toggleCheck);
 
 function handlePageLoad() {
 	refillArray();
@@ -153,7 +154,7 @@ function displayTodoList(obj) {
 
 function addTaskListItem(e, taskText, taskId, checked) {
 	e.preventDefault();
-	itemToAddList.insertAdjacentHTML('beforeend', `<li id="item-to-add"><img src="check-yo-self-icons/delete-list-item.svg" id="form-delete-item" data-taskid=${taskId}>${taskText}</li>`);
+	itemToAddList.insertAdjacentHTML('beforeend', `<li id="item-to-add"><img src="check-yo-self-icons/delete-list-item.svg" id="form-delete-item" data-id=${taskId}>${taskText}</li>`);
 	fillTaskItemArray(taskText, taskId, checked);
 	taskItemInput.value = '';
 }
@@ -161,7 +162,7 @@ function addTaskListItem(e, taskText, taskId, checked) {
 function createTodoListTaskList(array) {
 	var listItems = `<ul>`;
 	for (var i = 0; i < array.length; i++) {
-		listItems += `<li class="potential-task" id="item-to-add" ><img src="check-yo-self-icons/checkbox.svg" id="check-off-item">${array[i].text}</li>
+		listItems += `<li class="potential-task" id="item-to-add" ><img src="check-yo-self-icons/checkbox.svg" class="check-off-item" id="check-off-item" data-id=${array[i].id}>${array[i].text}</li>
 		</ul>`
 	}
 	return listItems;
@@ -211,4 +212,39 @@ function findTodoList(id) {
 	return todoListArray.find(function(todo) {
 		return todo.id == id;
 	});
+}
+
+function toggleUrgency(e) {
+	if (e.target.classList.contains('urgent-icon')) {
+		var targetTodoList = getTodoListFromArray(e);
+		targetTodoList.updateToDo();
+		var urgencyPath = targetTodoList.urgency ? 'check-yo-self-icons/urgent.svg' : 'check-yo-self-icons/urgent-active.svg'
+		e.target.setAttribute('src', urgencyPath);
+		targetTodoList.saveToStorage(todoListArray);
+	}
+}
+
+function toggleCheck(e) {
+	toggleCheckInArray(e);
+	var targetTodoList = getTodoListFromArray(e);
+	for (var i = 0; i < targetTodoList.taskItemArray.length; i++){
+		if (targetTodoList.taskItemArray[i].id == e.target.dataset.id){
+			var checkedPath = targetTodoList.taskItemArray[i].checked ? 'check-yo-self-icons/checkbox-active.svg' : 'check-yo-self-icons/checkbox.svg';
+			e.target.setAttribute('src', checkedPath)
+		}
+		targetTodoList.saveToStorage(todoListArray);
+	}
+}
+
+function toggleCheckInArray(e) {
+	if (e.target.classList.contains('check-off-item')) {
+		console.log(e);
+		var targetTodoList = getTodoListFromArray(e);
+		for (var i = 0; i <targetTodoList.taskItemArray.length; i++){
+			if (targetTodoList.taskItemArray[i].id == e.target.dataset.id){
+				targetTodoList.taskItemArray[i].checked = !targetTodoList.taskItemArray[i].checked;
+			}
+			targetTodoList.saveToStorage(todoListArray);
+		}
+	}
 }

@@ -20,9 +20,13 @@ class TodoList {
 		this.saveToStorage(todoListArray);
 	}
 
-	updateToDo() {
+	updateToDo(e) {
+		if (e.target.classList.contains('urgent-icon')){
 		this.urgency = !this.urgency;
+	} if (e.target.classList.contains('check-off-item')){
+		
 	}
+}
 
 	updateTask() {
 
