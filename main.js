@@ -4,48 +4,95 @@ var searchInput = document.getElementById('search-input');
 var taskTitleInput = document.getElementById('task-title-input');
 var itemToAddList = document.getElementById('item-to-add-list');
 var itemToAdd = document.getElementById('item-to-add');
-var formDeleteItem = document.getElementById('form-delete-item');
+// var formDeleteItem = document.getElementById('form-delete-item');
 var taskItemArea = document.getElementById('item-to-add-list');
 var taskItemInput = document.getElementById('task-item-input');
 var taskItemButton = document.getElementById('add-task-item');
 var makeTaskListButton = document.getElementById('make-task-list');
 var clearAllButton = document.getElementById('clear-all-button');
 var filterUrgentButton = document.getElementById('filter-urgent-button');
-var toggleUrgency = document.getElementById('toggle-urgency');
-var deleteCardButton = document.getElementById('delete-card');
 var cardDisplayArea = document.getElementById('card-display-area');
+var clearAllButton = document.getElementById('clear-all-button');
+var placeholderText = document.getElementById('placeholder-text');
 
-window.addEventListener('load', handlePageLoad)
+window.addEventListener('load', handlePageLoad);
 makeTaskListButton.addEventListener('click', createTodoList);
+makeTaskListButton.addEventListener('click', handleMakeTaskButton);
 taskItemArea.addEventListener('click', deleteTaskItem);
-taskItemInput.addEventListener('keyup', handleTaskItemButton);
+taskItemInput.addEventListener('keyup', handleTaskItemInput)
+taskTitleInput.addEventListener('keyup', handleMakeTaskButton);
 taskItemButton.addEventListener('click', handleTaskItemAdd);	
+clearAllButton.addEventListener('click', handleClearAll);
+clearAllButton.addEventListener('click', handleMakeTaskButton);
+cardDisplayArea.addEventListener('click', deleteTodoList);	
+cardDisplayArea.addEventListener('click', toggleUrgency);
 
 function handlePageLoad() {
 	refillArray();
 	createTaskItemArray();
 	repopulateTodoList();
+	handleClearAll();
 	placeholder();
+}
+
+function handleTaskListButton() {
+	createTodoList();
+	handleTaskItemButton();
 }
 
 function handleTaskItemAdd(e) {
 	e.preventDefault();
 	addTaskListItem(e, taskItemInput.value, Date.now(), false);
-	handleTaskItemButton();
+	disableTaskItemButton();
+	disableClearAll();
+	disableMakeTaskButton();
 }
 
-function placeholder() {
-  if (todoListArray.length === 0) {
-  	cardDisplayArea.insertAdjacentHTML('afterbegin', `<p>Fill out the form at left and hit "Make Task List" to start!</p>`)
-	}
+function handleTaskItemInput(e) {
+	disableTaskItemButton();
+	disableClearAll();
+	disableMakeTaskButton();
 }
 
-function handleTaskItemButton() {
+function handleClearAll(e) {
+	clearAll();
+	disableClearAll();
+	disableMakeTaskButton();
+	disableTaskItemButton();
+}
+
+function handleMakeTaskButton(e) {
+	disableMakeTaskButton();
+	disableClearAll();
+	disableTaskItemButton();
+}
+
+function disableClearAll() {
+	var li = document.getElementById('item-to-add')
+	var item = document.getElementById('item-to-add-list').contains(li);
+	clearAllButton.disabled = !taskTitleInput.value && !item;
+}
+
+function disableTaskItemButton() {
 	taskItemButton.disabled = !taskItemInput.value;
+}
+
+function disableMakeTaskButton() {
+	var li = document.getElementById('item-to-add')
+	var item = document.getElementById('item-to-add-list').contains(li);
+	makeTaskListButton.disabled = !taskTitleInput.value || !item;
 }
 
 function createTaskItemArray() {
 	localStorage.setItem('taskItemArray', JSON.stringify([]));
+}
+
+function placeholder() {
+  if (todoListArray.length === 0) {
+    placeholderText.classList.remove('hidden');
+  } else if (todoListArray.length !== 0) {
+    placeholderText.classList.add('hidden');
+  }
 }
 
 function refillArray() {
@@ -84,8 +131,9 @@ function createTodoList() {
 }
 
 function displayTodoList(obj) {
+	placeholderText.classList.add('hidden');
 	var listItems = createTodoListTaskList(obj.taskItemArray);
-	cardDisplayArea.insertAdjacentHTML('afterbegin', `<article data-id=${obj.id}>
+	cardDisplayArea.insertAdjacentHTML('afterbegin', `<article class='todo-list' data-id=${obj.id}>
 			<header>${obj.title}</header>
 			<output>
 				${listItems}
@@ -120,8 +168,11 @@ function createTodoListTaskList(array) {
 }
 
 function deleteTaskItem(e) {
+	if (e.target.id === 'form-delete-item') {
 	e.target.closest('li').remove();
 	filterTaskItemArray(e);
+	}
+	placeholder();
 }
 
 function filterTaskItemArray(e) {
@@ -132,4 +183,32 @@ function filterTaskItemArray(e) {
 		}
 	})
 	taskItemArray = localStorage.setItem('taskItemArray', JSON.stringify(filteredTaskItemArray));
+}
+
+function clearAll(){
+	taskTitleInput.value = '';
+	taskItemInput.value = '';
+	itemToAddList.innerHTML = '';
+	createTaskItemArray();
+}
+
+function deleteTodoList(e) {
+	if (e.target.classList.contains('delete-icon')) {
+		e.target.closest('.todo-list').remove();
+		var todoList = getTodoListFromArray(e);
+		todoList.deleteFromStorage(todoList);
+	}
+	placeholder();
+}
+
+function getTodoListFromArray(e) {
+	var todoListId = e.target.closest('.todo-list').getAttribute('data-id');
+	var targetTodoList = findTodoList(todoListId);
+	return targetTodoList;
+}
+
+function findTodoList(id) {
+	return todoListArray.find(function(todo) {
+		return todo.id == id;
+	});
 }

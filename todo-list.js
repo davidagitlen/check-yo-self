@@ -10,12 +10,18 @@ class TodoList {
 		localStorage.setItem('todoListArray', JSON.stringify(todoListArray));
 	}
 
-	deleteFromStorage() {
-
+	deleteFromStorage(targetTodo) {
+		var updatedArray = todoListArray.filter(function(arrayItem) {
+			if(arrayItem.id !== targetTodo.id) {
+				return arrayItem;
+			}
+		})
+		todoListArray = updatedArray;
+		this.saveToStorage(todoListArray);
 	}
 
 	updateToDo() {
-
+		this.urgency = !this.urgency;
 	}
 
 	updateTask() {
