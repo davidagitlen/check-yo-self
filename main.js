@@ -5,6 +5,7 @@ var taskTitleInput = document.getElementById('task-title-input');
 var itemToAddList = document.getElementById('item-to-add-list');
 var itemToAdd = document.getElementById('item-to-add');
 var formDeleteItem = document.getElementById('form-delete-item');
+var taskItemArea = document.getElementById('item-to-add-list');
 var taskItemInput = document.getElementById('task-item-input');
 var taskItemButton = document.getElementById('add-task-item');
 var makeTaskListButton = document.getElementById('make-task-list');
@@ -16,6 +17,7 @@ var cardDisplayArea = document.getElementById('card-display-area');
 
 window.addEventListener('load', handlePageLoad)
 makeTaskListButton.addEventListener('click', createTodoList);
+taskItemArea.addEventListener('click', deleteTaskItem);
 taskItemInput.addEventListener('keyup', handleTaskItemButton);
 taskItemButton.addEventListener('click', handleTaskItemAdd);	
 
@@ -23,13 +25,19 @@ function handlePageLoad() {
 	refillArray();
 	createTaskItemArray();
 	repopulateTodoList();
+	placeholder();
 }
 
 function handleTaskItemAdd(e) {
 	e.preventDefault();
-	fillTaskItemArray();
-	addTaskListItem(e, taskItemInput.value);
+	addTaskListItem(e, taskItemInput.value, Date.now(), false);
 	handleTaskItemButton();
+}
+
+function placeholder() {
+  if (todoListArray.length === 0) {
+  	cardDisplayArea.insertAdjacentHTML('afterbegin', `<p>Fill out the form at left and hit "Make Task List" to start!</p>`)
+	}
 }
 
 function handleTaskItemButton() {
@@ -57,9 +65,9 @@ function repopulateTodoList() {
 	}
 }
 
-function fillTaskItemArray() {
-	var taskItemArray = JSON.parse(localStorage.getItem('taskItemArray'))
-	var taskItemArrayObj = {text : taskItemInput.value, id: Date.now(), checked: false}
+function fillTaskItemArray(taskText, taskId, checked) {
+	var taskItemArray = JSON.parse(localStorage.getItem('taskItemArray'));
+	var taskItemArrayObj = {text : taskText, id: taskId, checked: checked}
 	taskItemArray.push(taskItemArrayObj);
 	localStorage.setItem('taskItemArray', JSON.stringify(taskItemArray));
 }
@@ -75,11 +83,9 @@ function createTodoList() {
 	createTaskItemArray();
 }
 
-
-//this time it needs to be running on the array stored in the ojbect in the global array, not the local array
 function displayTodoList(obj) {
 	var listItems = createTodoListTaskList(obj.taskItemArray);
-	cardDisplayArea.insertAdjacentHTML('beforeend', `<article data-id=${obj.id}>
+	cardDisplayArea.insertAdjacentHTML('afterbegin', `<article data-id=${obj.id}>
 			<header>${obj.title}</header>
 			<output>
 				${listItems}
@@ -97,19 +103,33 @@ function displayTodoList(obj) {
 		</article>`)
 }
 
-// run through the object from the global array instead of the local array here so it will end up being object.tasks[i].text
+function addTaskListItem(e, taskText, taskId, checked) {
+	e.preventDefault();
+	itemToAddList.insertAdjacentHTML('beforeend', `<li id="item-to-add"><img src="check-yo-self-icons/delete-list-item.svg" id="form-delete-item" data-taskid=${taskId}>${taskText}</li>`);
+	fillTaskItemArray(taskText, taskId, checked);
+	taskItemInput.value = '';
+}
+
 function createTodoListTaskList(array) {
 	var listItems = `<ul>`;
 	for (var i = 0; i < array.length; i++) {
-		listItems += `<li id="item-to-add"><img src="check-yo-self-icons/delete-list-item.svg" id="form-delete-item">${array[i].text}</li>
+		listItems += `<li class="potential-task" id="item-to-add" ><img src="check-yo-self-icons/checkbox.svg" id="check-off-item">${array[i].text}</li>
 		</ul>`
 	}
 	return listItems;
 }
 
-function addTaskListItem(e, taskText) {
-	e.preventDefault();
-	itemToAddList.insertAdjacentHTML('beforeend', `<li id="item-to-add"><img src="check-yo-self-icons/delete-list-item.svg" id="form-delete-item">${taskText}</li>`);
-	taskItemInput.value = '';
+function deleteTaskItem(e) {
+	e.target.closest('li').remove();
+	filterTaskItemArray(e);
 }
 
+function filterTaskItemArray(e) {
+	var taskItemArray = JSON.parse(localStorage.getItem('taskItemArray'));
+	var filteredTaskItemArray = taskItemArray.filter(function(arrayItem){
+		if(arrayItem.id != e.target.dataset.taskid){
+			return arrayItem
+		}
+	})
+	taskItemArray = localStorage.setItem('taskItemArray', JSON.stringify(filteredTaskItemArray));
+}

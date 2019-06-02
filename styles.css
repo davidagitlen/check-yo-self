@@ -10,7 +10,7 @@ body {
 		"header header header" 75px
 		"side main main" 50%
 		"side main main" 50%/ 1fr 1fr 1fr;
-	height: 100vh;
+	height: max-content;
 }
 
 header {
@@ -80,7 +80,7 @@ main {
 	grid-area: main;
 	background-color: #F3F6F7;
 	padding: 35px;
-	height: auto;
+	height: 100%;
 	columns: 2 45%;
 	column-gap: 30px;
 }
