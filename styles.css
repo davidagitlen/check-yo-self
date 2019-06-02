@@ -14,17 +14,19 @@ body {
 }
 
 header {
-	align-items: center;
 	background-color: #1F1F3D;
 	color: #FFF;
 	display: grid;
 	grid-area: header;
 	grid-template-columns: repeat(3, 1fr);
+	justify-content: center;
+	align-items: center;
 	padding: 10px;
 }
 
 h1 {
 	font-weight: 800;
+	margin: 0px 10px;
 }
 
 span{
@@ -74,12 +76,11 @@ li {
 li img {
 }
 
-/*maybe height auto?*/
 main {
 	grid-area: main;
 	background-color: #F3F6F7;
 	padding: 35px;
-	height: 100%;
+	height: auto;
 	columns: 2 45%;
 	column-gap: 30px;
 }

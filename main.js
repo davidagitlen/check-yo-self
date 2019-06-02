@@ -20,10 +20,9 @@ taskItemInput.addEventListener('keyup', handleTaskItemButton);
 taskItemButton.addEventListener('click', handleTaskItemAdd);	
 
 function handlePageLoad() {
-	createTaskItemArray();
 	refillArray();
+	createTaskItemArray();
 	repopulateTodoList();
-	console.log(todoListArray);
 }
 
 function handleTaskItemAdd(e) {
@@ -46,7 +45,7 @@ function refillArray() {
 		return;
 	} else {
 		var newArray = JSON.parse(localStorage.getItem('todoListArray')).map(function(array) {
-			return new TodoList(array.title, array.id, array.taskListArray, array.urgency);
+			return new TodoList(array.title, array.id, array.taskItemArray, array.urgency);
 		});
 		todoListArray = newArray;
 	}
@@ -73,13 +72,17 @@ function createTodoList() {
 	taskTitleInput.value = '';
 	itemToAddList.innerHTML = '';
 	displayTodoList(todoList);
+	createTaskItemArray();
 }
 
+
+//this time it needs to be running on the array stored in the ojbect in the global array, not the local array
 function displayTodoList(obj) {
+	var listItems = createTodoListTaskList(obj.taskItemArray);
 	cardDisplayArea.insertAdjacentHTML('beforeend', `<article data-id=${obj.id}>
 			<header>${obj.title}</header>
 			<output>
-				${obj.taskListArray}
+				${listItems}
 			</output>
 			<footer>
 				<div>
@@ -94,10 +97,12 @@ function displayTodoList(obj) {
 		</article>`)
 }
 
-function createTodoListTaskList(list) {
+// run through the object from the global array instead of the local array here so it will end up being object.tasks[i].text
+function createTodoListTaskList(array) {
 	var listItems = `<ul>`;
-	for (var i = 0; i < list.length; i++) {
-		listItems += `<li id="item-to-add"><img src="check-yo-self-icons/delete-list-item.svg" id="form-delete-item">${list[i].text}</li>`
+	for (var i = 0; i < array.length; i++) {
+		listItems += `<li id="item-to-add"><img src="check-yo-self-icons/delete-list-item.svg" id="form-delete-item">${array[i].text}</li>
+		</ul>`
 	}
 	return listItems;
 }
