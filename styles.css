@@ -14,17 +14,19 @@ body {
 }
 
 header {
-	align-items: center;
 	background-color: #1F1F3D;
 	color: #FFF;
 	display: grid;
 	grid-area: header;
 	grid-template-columns: repeat(3, 1fr);
+	justify-content: center;
+	align-items: center;
 	padding: 10px;
 }
 
 h1 {
 	font-weight: 800;
+	margin: 0px 10px;
 }
 
 span{
@@ -65,19 +67,34 @@ input {
 	padding-left: 10px;
 }
 
+li {
+	list-style: none;
+	display: flex;
+	align-items: center;
+}
+
+li img {
+}
+
 main {
 	grid-area: main;
-	display: flex;
 	background-color: #F3F6F7;
 	padding: 35px;
 	height: 100%;
+	overflow: hidden;
+	columns: 2;
+	column-width: 100%;
+	column-gap: 30px;
 }
 
-article {
+main article {
 	background-color: #FFF;
 	border: 1.5px solid #C7D3D8;
+	break-inside: avoid;
+	margin-bottom: 30px;
+	min-height: 100px;
 	height: max-content;
-	width: 45%;
+	width: 90%;
 }
 
 header img {
@@ -126,7 +143,7 @@ form img {
 
 form button {
 	background-color: #1F1F3D;
-	border: none;
+	border: 1px solid #1F1F3D;
 	border-radius: 2.5px;
 	color: #FFF;
 	font-size: 18px;
@@ -145,6 +162,16 @@ article header {
 }
 
 article output {
+}
+
+article ul {
+	padding: 0px;
+	margin: 0px;
+}
+
+article output img {
+	height: 2.25em;
+	padding: 7.5px;
 }
 
 article footer {
@@ -173,6 +200,11 @@ footer p {
 	margin: 0px;
 }
 
+button[type="button"]:disabled {
+    background-color: #F3F6F7;
+    color: #1F1F3D;
+}
+
 .task-item-div {
 	display: flex;
 }
@@ -185,10 +217,12 @@ footer p {
 
 .task-item-button {
 	background-color: #1F1F3D;
-	margin: 0px 0px 15px 0px;
-	border: none;
+	border: 1px solid #1F1F3D;
 	border-radius: 0px 2.5px 2.5px 0px;
-	height: 2.5em;
+	font-size: 36px;
+	font-weight: lighter;
+	margin: 0px 0px 15px 0px;
+	height: 1.25em;
 	width: 15%;
 }
 
@@ -200,4 +234,15 @@ footer p {
 
 .filter-urgent-button {
 	margin: 35px 0px 0px 0px;
+}
+
+.placeholder-text {
+	height: 100px;
+	width: 90%;
+	padding: 10px;
+	text-align: center;
+}
+
+.hidden {
+	display: none;
 }
