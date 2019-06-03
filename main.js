@@ -13,6 +13,7 @@ var filterUrgentButton = document.getElementById('filter-urgent-button');
 var cardDisplayArea = document.getElementById('card-display-area');
 var clearAllButton = document.getElementById('clear-all-button');
 var placeholderText = document.getElementById('placeholder-text');
+var urgentPlaceholder = document.getElementById('urgent-placeholder');
 
 window.addEventListener('load', handlePageLoad);
 searchInput.addEventListener('keyup', handleSearch);
@@ -35,6 +36,7 @@ function handlePageLoad() {
 	repopulateTodoList();
 	handleClearAll();
 	placeholder();
+	urgentPlaceholderOnLoad();
 }
 
 function handleTaskListButton() {
@@ -301,8 +303,20 @@ function searchUrgent(e) {
 		filteredTodos.forEach(function(todoList) {
 			displayTodoList(todoList);
 		});
+		urgentPlaceholderOnSearch(filteredTodos);
 	} else if (!e.target.classList.contains('search-urgent')) {
 		cardDisplayArea.innerHTML = '';
 		repopulateTodoList();
+	}
+}
+
+function urgentPlaceholderOnLoad() {
+	urgentPlaceholder.classList.add('hidden');
+}
+
+function urgentPlaceholderOnSearch(array) {
+	if(array.length === 0) {
+		console.log(array.length)
+		urgentPlaceholder.classList.remove('hidden');
 	}
 }
