@@ -138,6 +138,7 @@ function displayTodoList(obj) {
 	placeholderText.classList.add('hidden');
 	var unchecked = enableDeleteButtons(obj);
 	var disabled = unchecked.length === 0 ? '' : 'disabled'; 
+	var disabledClass = unchecked.length === 0 ? '' : 'disabled';
 	var listItems = createTodoListTaskList(obj.taskItemArray);
 	var urgencyPath = obj.urgency ? 'check-yo-self-icons/urgent-active.svg' : 'check-yo-self-icons/urgent.svg';
 	var urgentClass = obj.urgency ? 'urgent' : '';
@@ -152,7 +153,7 @@ function displayTodoList(obj) {
 					<p>URGENT</p>
 				</div>
 				<div>
-					<input type="image" src="check-yo-self-icons/delete.svg" class="delete-icon" id="delete-card" ${disabled}>
+					<input type="image" src="check-yo-self-icons/delete.svg" class="delete-icon ${disabledClass}" id="delete-card" ${disabled}>
 					<p>DELETE</p>
 				</div>
 			</footer>			
@@ -267,6 +268,11 @@ function disableDeleteButton(e, checkedList) {
 		return listitem.checked === false; 
 	})
 	deleteButton.disabled = uncheckedItemsArray.length !== 0
+	if (uncheckedItemsArray.length === 0) {
+		deleteButton.classList.remove('disabled')
+	} else {
+		deleteButton.classList.add('disabled');
+	}
 }
 
 function enableDeleteButtons(todoList) {
