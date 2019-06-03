@@ -161,9 +161,6 @@ article header {
 	margin-left: 1px;
 }
 
-article output {
-}
-
 article ul {
 	padding: 0px;
 	margin: 0px;
@@ -250,10 +247,28 @@ button[type="button"]:disabled {
 	text-align: center;
 }
 
+.italic {
+	font-style: italic;
+	color: #3C6577;
+}
+
 .hidden {
 	display: none;
 }
 
+.urgent {
+ 	background-color: #FFE89D;
+  border: 2px solid #FFC30C;
+}
+
+.urgent header {
+	background-color: #FFE89D;
+  border-bottom: 2px solid #FFC30C;
+}
+
+.urgent footer {
+	border-top: 2px solid #FFC30C;
+}
 .search-urgent {
 	background-color: #EF4A23;
 }
