@@ -25,7 +25,7 @@ class TodoList {
 	}
 
 	updateTask(e) {
-		for (var i = 0; i <this.taskItemArray.length; i++){
+		for (var i = 0; i < this.taskItemArray.length; i++){
 			if (this.taskItemArray[i].id == e.target.dataset.id){
 				this.taskItemArray[i].checked = !this.taskItemArray[i].checked;
 			}

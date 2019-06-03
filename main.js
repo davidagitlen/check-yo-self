@@ -110,6 +110,7 @@ function refillArray() {
 function repopulateTodoList() {
 	for (var i = 0; i < todoListArray.length; i++) {
 		displayTodoList(todoListArray[i]);
+
 	}
 }
 
@@ -133,6 +134,8 @@ function createTodoList() {
 
 function displayTodoList(obj) {
 	placeholderText.classList.add('hidden');
+	var unchecked = enableDeleteButtons(obj);
+	var disabled = unchecked.length === 0 ? '' : 'disabled'; 
 	var listItems = createTodoListTaskList(obj.taskItemArray);
 	var urgencyPath = obj.urgency ? 'check-yo-self-icons/urgent-active.svg' : 'check-yo-self-icons/urgent.svg'
 	cardDisplayArea.insertAdjacentHTML('afterbegin', `<article class='todo-list' data-id=${obj.id}>
@@ -146,7 +149,7 @@ function displayTodoList(obj) {
 					<p>URGENT</p>
 				</div>
 				<div>
-					<input type="image" src="check-yo-self-icons/delete.svg" class="delete-icon" id="delete-card" disabled>
+					<input type="image" src="check-yo-self-icons/delete.svg" class="delete-icon" id="delete-card" ${disabled}>
 					<p>DELETE</p>
 				</div>
 			</footer>			
@@ -242,7 +245,6 @@ function toggleCheck(e) {
 			}
 			targetTodoList.saveToStorage(todoListArray);
 		}
-		console.log('checking delete button');
 		disableDeleteButton(e, targetTodoList);
 	}	
 }
@@ -253,4 +255,13 @@ function disableDeleteButton(e, checkedList) {
 		return listitem.checked === false; 
 	})
 	deleteButton.disabled = uncheckedItemsArray.length !== 0
+}
+
+function enableDeleteButtons(todoList) {
+	for (var i = 0; i < todoList.taskItemArray.length; i++){
+		var uncheckedItemsArray = todoList.taskItemArray.filter(function(listitem){
+			return listitem.checked === false;
+		});
+	}
+	return uncheckedItemsArray;
 }
