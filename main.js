@@ -16,6 +16,7 @@ var clearAllButton = document.getElementById('clear-all-button');
 var placeholderText = document.getElementById('placeholder-text');
 
 window.addEventListener('load', handlePageLoad);
+searchInput.addEventListener('keyup', handleSearch);
 makeTaskListButton.addEventListener('click', createTodoList);
 makeTaskListButton.addEventListener('click', handleMakeTaskButton);
 taskItemArea.addEventListener('click', deleteTaskItem);
@@ -264,4 +265,19 @@ function enableDeleteButtons(todoList) {
 		});
 	}
 	return uncheckedItemsArray;
+}
+
+function handleSearch() {
+	cardDisplayArea.innerHTML = '';
+	var searchText = searchInput.value.toLowerCase();
+	searchFilter(searchText);
+}
+
+function searchFilter(searchText) {
+	var filteredTodos = todoListArray.filter(function(todoList) {
+		return (todoList.title.toLowerCase().includes(searchText))
+	});
+	filteredTodos.forEach(function(todoList) {
+		displayTodoList(todoList);
+	})
 }
