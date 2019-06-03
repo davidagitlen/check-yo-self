@@ -110,6 +110,7 @@ function refillArray() {
 function repopulateTodoList() {
 	for (var i = 0; i < todoListArray.length; i++) {
 		displayTodoList(todoListArray[i]);
+
 	}
 }
 
@@ -133,7 +134,10 @@ function createTodoList() {
 
 function displayTodoList(obj) {
 	placeholderText.classList.add('hidden');
+	var unchecked = enableDeleteButtons(obj);
+	var disabled = unchecked.length === 0 ? '' : 'disabled'; 
 	var listItems = createTodoListTaskList(obj.taskItemArray);
+	var urgencyPath = obj.urgency ? 'check-yo-self-icons/urgent-active.svg' : 'check-yo-self-icons/urgent.svg'
 	cardDisplayArea.insertAdjacentHTML('afterbegin', `<article class='todo-list' data-id=${obj.id}>
 			<header>${obj.title}</header>
 			<output>
@@ -141,11 +145,11 @@ function displayTodoList(obj) {
 			</output>
 			<footer>
 				<div>
-					<img src="check-yo-self-icons/urgent.svg" class="urgent-icon" id="toggle-urgency">
+					<img src="${urgencyPath}" class="urgent-icon" id="toggle-urgency">
 					<p>URGENT</p>
 				</div>
 				<div>
-					<img src="check-yo-self-icons/delete.svg" class="delete-icon" id="delete-card">
+					<input type="image" src="check-yo-self-icons/delete.svg" class="delete-icon" id="delete-card" ${disabled}>
 					<p>DELETE</p>
 				</div>
 			</footer>			
@@ -154,7 +158,11 @@ function displayTodoList(obj) {
 
 function addTaskListItem(e, taskText, taskId, checked) {
 	e.preventDefault();
-	itemToAddList.insertAdjacentHTML('beforeend', `<li id="item-to-add"><img src="check-yo-self-icons/delete-list-item.svg" id="form-delete-item" data-id=${taskId}>${taskText}</li>`);
+	itemToAddList.insertAdjacentHTML('beforeend', 
+		`<li id="item-to-add">
+		<img src="check-yo-self-icons/delete-list-item.svg" id="form-delete-item" data-id=${taskId}>
+		${taskText}
+		</li>`);
 	fillTaskItemArray(taskText, taskId, checked);
 	taskItemInput.value = '';
 }
@@ -162,7 +170,8 @@ function addTaskListItem(e, taskText, taskId, checked) {
 function createTodoListTaskList(array) {
 	var listItems = `<ul>`;
 	for (var i = 0; i < array.length; i++) {
-		listItems += `<li class="potential-task" id="item-to-add" ><img src="check-yo-self-icons/checkbox.svg" class="check-off-item" id="check-off-item" data-id=${array[i].id}>${array[i].text}</li>
+		var checkedPath = array[i].checked ? 'check-yo-self-icons/checkbox-active.svg' : 'check-yo-self-icons/checkbox.svg';
+		listItems += `<li class="potential-task" id="item-to-add" ><img src="${checkedPath}" class="check-off-item" id="check-off-item" data-id=${array[i].id}>${array[i].text}</li>
 		</ul>`
 	}
 	return listItems;
@@ -173,13 +182,14 @@ function deleteTaskItem(e) {
 	e.target.closest('li').remove();
 	filterTaskItemArray(e);
 	}
+	handleMakeTaskButton();
 	placeholder();
 }
 
 function filterTaskItemArray(e) {
 	var taskItemArray = JSON.parse(localStorage.getItem('taskItemArray'));
 	var filteredTaskItemArray = taskItemArray.filter(function(arrayItem){
-		if(arrayItem.id != e.target.dataset.taskid){
+		if(arrayItem.id != e.target.dataset.id){
 			return arrayItem
 		}
 	})
@@ -217,34 +227,41 @@ function findTodoList(id) {
 function toggleUrgency(e) {
 	if (e.target.classList.contains('urgent-icon')) {
 		var targetTodoList = getTodoListFromArray(e);
-		targetTodoList.updateToDo();
-		var urgencyPath = targetTodoList.urgency ? 'check-yo-self-icons/urgent.svg' : 'check-yo-self-icons/urgent-active.svg'
+		targetTodoList.updateToDo(e);
+		var urgencyPath = targetTodoList.urgency ? 'check-yo-self-icons/urgent-active.svg' : 'check-yo-self-icons/urgent.svg'
 		e.target.setAttribute('src', urgencyPath);
 		targetTodoList.saveToStorage(todoListArray);
 	}
 }
 
 function toggleCheck(e) {
-	toggleCheckInArray(e);
-	var targetTodoList = getTodoListFromArray(e);
-	for (var i = 0; i < targetTodoList.taskItemArray.length; i++){
-		if (targetTodoList.taskItemArray[i].id == e.target.dataset.id){
-			var checkedPath = targetTodoList.taskItemArray[i].checked ? 'check-yo-self-icons/checkbox-active.svg' : 'check-yo-self-icons/checkbox.svg';
-			e.target.setAttribute('src', checkedPath)
-		}
-		targetTodoList.saveToStorage(todoListArray);
-	}
-}
-
-function toggleCheckInArray(e) {
-	if (e.target.classList.contains('check-off-item')) {
-		console.log(e);
+	if(e.target.className === 'check-off-item'){
 		var targetTodoList = getTodoListFromArray(e);
-		for (var i = 0; i <targetTodoList.taskItemArray.length; i++){
+		targetTodoList.updateTask(e);
+		for (var i = 0; i < targetTodoList.taskItemArray.length; i++){
 			if (targetTodoList.taskItemArray[i].id == e.target.dataset.id){
-				targetTodoList.taskItemArray[i].checked = !targetTodoList.taskItemArray[i].checked;
+				var checkedPath = targetTodoList.taskItemArray[i].checked ? 'check-yo-self-icons/checkbox-active.svg' : 'check-yo-self-icons/checkbox.svg';
+				e.target.setAttribute('src', checkedPath)
 			}
 			targetTodoList.saveToStorage(todoListArray);
 		}
+		disableDeleteButton(e, targetTodoList);
+	}	
+}
+
+function disableDeleteButton(e, checkedList) {
+	var deleteButton = e.target.closest('.todo-list').querySelector('.delete-icon');
+	var uncheckedItemsArray = checkedList.taskItemArray.filter(function(listitem) {
+		return listitem.checked === false; 
+	})
+	deleteButton.disabled = uncheckedItemsArray.length !== 0
+}
+
+function enableDeleteButtons(todoList) {
+	for (var i = 0; i < todoList.taskItemArray.length; i++){
+		var uncheckedItemsArray = todoList.taskItemArray.filter(function(listitem){
+			return listitem.checked === false;
+		});
 	}
+	return uncheckedItemsArray;
 }

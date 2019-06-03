@@ -15,21 +15,22 @@ class TodoList {
 			if(arrayItem.id !== targetTodo.id) {
 				return arrayItem;
 			}
-		})
+		});
 		todoListArray = updatedArray;
 		this.saveToStorage(todoListArray);
 	}
 
 	updateToDo(e) {
-		if (e.target.classList.contains('urgent-icon')){
 		this.urgency = !this.urgency;
-	} if (e.target.classList.contains('check-off-item')){
-		
 	}
-}
 
-	updateTask() {
-
+	updateTask(e) {
+		for (var i = 0; i < this.taskItemArray.length; i++){
+			if (this.taskItemArray[i].id == e.target.dataset.id){
+				this.taskItemArray[i].checked = !this.taskItemArray[i].checked;
+			}
+			this.saveToStorage(todoListArray);
+		}
 	}
 
 }
