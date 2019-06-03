@@ -4,7 +4,6 @@ var searchInput = document.getElementById('search-input');
 var taskTitleInput = document.getElementById('task-title-input');
 var itemToAddList = document.getElementById('item-to-add-list');
 var itemToAdd = document.getElementById('item-to-add');
-// var formDeleteItem = document.getElementById('form-delete-item');
 var taskItemArea = document.getElementById('item-to-add-list');
 var taskItemInput = document.getElementById('task-item-input');
 var taskItemButton = document.getElementById('add-task-item');
@@ -25,6 +24,7 @@ taskTitleInput.addEventListener('keyup', handleMakeTaskButton);
 taskItemButton.addEventListener('click', handleTaskItemAdd);	
 clearAllButton.addEventListener('click', handleClearAll);
 clearAllButton.addEventListener('click', handleMakeTaskButton);
+filterUrgentButton.addEventListener('click', searchUrgent);
 cardDisplayArea.addEventListener('click', deleteTodoList);	
 cardDisplayArea.addEventListener('click', toggleUrgency);
 cardDisplayArea.addEventListener('click', toggleCheck);
@@ -267,17 +267,42 @@ function enableDeleteButtons(todoList) {
 	return uncheckedItemsArray;
 }
 
-function handleSearch() {
+function handleSearch(e) {
 	cardDisplayArea.innerHTML = '';
 	var searchText = searchInput.value.toLowerCase();
-	searchFilter(searchText);
+		searchFilter(e, searchText);
 }
 
-function searchFilter(searchText) {
-	var filteredTodos = todoListArray.filter(function(todoList) {
-		return (todoList.title.toLowerCase().includes(searchText))
-	});
-	filteredTodos.forEach(function(todoList) {
-		displayTodoList(todoList);
-	})
+function searchFilter(e, searchText) {
+	if (filterUrgentButton.classList.contains('search-urgent')){
+		var filteredTodos = todoListArray.filter(function(todoList) {
+			return (todoList.title.toLowerCase().includes(searchText) && todoList.urgency === true)
+		});
+		filteredTodos.forEach(function(todoList) {
+			displayTodoList(todoList);
+		});
+	} else {
+		var filteredTodos = todoListArray.filter(function(todoList) {
+			return (todoList.title.toLowerCase().includes(searchText))
+		});
+		filteredTodos.forEach(function(todoList) {
+			displayTodoList(todoList);
+		});
+	}
+}
+
+function searchUrgent(e) {
+	filterUrgentButton.classList.toggle('search-urgent');
+	if (e.target.classList.contains('search-urgent')) {
+		cardDisplayArea.innerHTML = '';
+		var filteredTodos = todoListArray.filter(function(todoList) {
+			return (todoList.urgency === true)
+		});
+		filteredTodos.forEach(function(todoList) {
+			displayTodoList(todoList);
+		});
+	} else if (!e.target.classList.contains('search-urgent')) {
+		cardDisplayArea.innerHTML = '';
+		repopulateTodoList();
+	}
 }

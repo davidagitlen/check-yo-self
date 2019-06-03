@@ -253,3 +253,7 @@ button[type="button"]:disabled {
 .hidden {
 	display: none;
 }
+
+.search-urgent {
+	background-color: #EF4A23;
+}
