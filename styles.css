@@ -194,6 +194,13 @@ footer img {
 	margin: 0px 15px;
 }
 
+footer input {
+	display: inline-block;
+	border: none;
+	height: 1.5em;
+	margin: 0px 15px;
+}
+
 footer p {
 	color: #3C6577;
 	font-size: 12px;
