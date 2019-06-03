@@ -10,7 +10,8 @@ body {
 		"header header header" 75px
 		"side main main" 50%
 		"side main main" 50%/ 1fr 1fr 1fr;
-	height: 100vh;
+	min-height: 100%;
+	height: max-content;
 }
 
 header {
@@ -18,7 +19,8 @@ header {
 	color: #FFF;
 	display: grid;
 	grid-area: header;
-	grid-template-columns: repeat(3, 1fr);
+	grid-template-columns: 75% 25% 1fr
+	/*grid-template-columns: repeat(3, 1fr);*/
 	justify-content: center;
 	align-items: center;
 	padding: 10px;
@@ -80,8 +82,9 @@ main {
 	grid-area: main;
 	background-color: #F3F6F7;
 	padding: 35px;
-	height: 100%;
-	overflow: hidden;
+	min-height: 100%;
+	height: max-content;
+	/*overflow: hidden;*/
 	columns: 2;
 	column-width: 100%;
 	column-gap: 30px;
@@ -137,8 +140,8 @@ form p {
 }
 
 form img {
-	height: 2.25em;
-	padding: 7.5px;
+	height: 2.5em;
+	padding: 10px;
 }
 
 form button {
@@ -147,7 +150,7 @@ form button {
 	border-radius: 2.5px;
 	color: #FFF;
 	font-size: 18px;
-	margin: 15px 0px 10px 0px;
+	margin: 15px auto 10px auto;
 	height: 2.5em;
 	width: 99%;
 }
@@ -159,9 +162,6 @@ article header {
 	font-weight: bolder;
 	width: 99%;
 	margin-left: 1px;
-}
-
-article output {
 }
 
 article ul {
@@ -204,7 +204,7 @@ footer input {
 footer p {
 	color: #3C6577;
 	font-size: 12px;
-	margin: 0px;
+	margin: 0px 0px 0px 5px;
 }
 
 button[type="button"]:disabled {
@@ -243,6 +243,11 @@ button[type="button"]:disabled {
 	margin: 35px 0px 0px 0px;
 }
 
+.plus-button {
+	height: 1.25em;
+	padding: 10px;
+}
+
 .placeholder-text {
 	height: 100px;
 	width: 90%;
@@ -250,6 +255,38 @@ button[type="button"]:disabled {
 	text-align: center;
 }
 
+.italic {
+	font-style: italic;
+	color: #3C6577;
+}
+
 .hidden {
 	display: none;
+}
+
+.urgent {
+ 	background-color: #FFE89D;
+  border: 2px solid #FFC30C;
+}
+
+.urgent header {
+	background-color: #FFE89D;
+  border-bottom: 2px solid #FFC30C;
+}
+
+.urgent footer {
+	border-top: 2px solid #FFC30C;
+}
+
+.disabled {
+	opacity: 0.3;
+}
+
+.search-urgent {
+	background-color: #EF4A23;
+}
+
+.no-urgent-ideas {
+	padding: 10px;
+	text-align: center;
 }
