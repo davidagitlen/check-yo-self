@@ -35,8 +35,7 @@ function handlePageLoad() {
 	repopulateTodoList();
 	handleClearAll();
 	placeholder();
-	// urgentPlaceholderOnLoad();
-	cardDisplayArea.removeChild(urgentPlaceholder);
+	urgentPlaceholderOnLoad();
 }
 
 function handleTaskItemAdd(e) {
@@ -141,7 +140,6 @@ function createTodoList() {
 function displayTodoList(obj) {
 	placeholderText.classList.add('hidden');
 	var unchecked = enableDeleteButtons(obj);
-	console.log(unchecked);
 	var disabled = unchecked.length === 0 ? '' : 'disabled'; 
 	var disabledClass = unchecked.length === 0 ? '' : 'disabled';
 	var urgencyPath = obj.urgency ? 'check-yo-self-icons/urgent-active.svg' : 'check-yo-self-icons/urgent.svg';
@@ -333,11 +331,9 @@ function filterUrgent() {
 	urgentPlaceholderOnSearch(filteredTodos);
 }
 
-
-// function urgentPlaceholderOnLoad() {
-// 	console.log('trying to remove')
-// 	cardDisplayArea.removeChild(urgentPlaceholder);
-// }
+function urgentPlaceholderOnLoad() {
+	cardDisplayArea.removeChild(urgentPlaceholder);
+}
 
 function urgentPlaceholderOnSearch(array) {
 	if(array.length === 0) {
