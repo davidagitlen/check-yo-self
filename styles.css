@@ -281,7 +281,7 @@ button[type="button"]:disabled {
 	background-color: #EF4A23;
 }
 
-@media screen and (max-width: 530px) {
+@media screen and (max-width: 545px) {
 	
 	body {
 		display: block;
@@ -308,6 +308,10 @@ button[type="button"]:disabled {
 	main {
 		padding: 15px;
 		min-height: 100vh;
+	}
+
+	main article {
+		width: 99%;
 	}
 
 }
