@@ -254,8 +254,8 @@ function toggleCheckLoop(e, todoList) {
 }
 
 function toggleItalics(e) {
-	var checkedListCl = e.target.closest('li').classList;
-	checkedListCl.contains('italic') ? checkedListCl.remove('italic') : checkedListCl.add('italic');
+	var classList = e.target.closest('li').classList;
+	classList.contains('italic') ? classList.remove('italic') : classList.add('italic');
 }
 
 function disableDeleteButton(e, checkedList) {

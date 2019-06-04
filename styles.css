@@ -89,7 +89,7 @@ form input {
 
 form img {
 	height: 2.5em;
-	padding: 10px;
+	padding: 10px 0px 10px 10px;
 }
 
 form button {
@@ -244,6 +244,11 @@ button[type="button"]:disabled {
 	text-align: center;
 }
 
+.no-urgent-ideas {
+	padding: 10px;
+	text-align: center;
+}
+
 .italic {
 	font-style: italic;
 	color: #3C6577;
@@ -275,11 +280,6 @@ button[type="button"]:disabled {
 	background-color: #EF4A23;
 }
 
-.no-urgent-ideas {
-	padding: 10px;
-	text-align: center;
-}
-
 @media screen and (max-width: 720px) {
 	
 	body {
@@ -299,15 +299,6 @@ button[type="button"]:disabled {
 		margin: 15px 0px 0px 0px;
 	}
 
-	header input {
-		font-size: 16px;
-		border-left: 0px;
-		border-radius: 0px 2.5px 2.5px 0px;
-		height: 2.5em;
-		width: 100%;
-		margin-bottom: 15px;
-	}
-
 	header div {
 		margin: 10px auto 0px auto;
 		width: 95%;
@@ -315,7 +306,7 @@ button[type="button"]:disabled {
 
 	main {
 		padding: 15px;
-
+		min-height: 100vh;
 	}
 
 }
