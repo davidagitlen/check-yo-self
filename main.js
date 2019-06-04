@@ -35,7 +35,8 @@ function handlePageLoad() {
 	repopulateTodoList();
 	handleClearAll();
 	placeholder();
-	urgentPlaceholderOnLoad();
+	// urgentPlaceholderOnLoad();
+	cardDisplayArea.removeChild(urgentPlaceholder);
 }
 
 function handleTaskItemAdd(e) {
@@ -112,8 +113,10 @@ function refillArray() {
 }
 
 function repopulateTodoList() {
+	if (todoListArray.length !== 0) {
 	for (var i = 0; i < todoListArray.length; i++) {
 		displayTodoList(todoListArray[i]); 
+		}
 	}
 }
 
@@ -138,6 +141,7 @@ function createTodoList() {
 function displayTodoList(obj) {
 	placeholderText.classList.add('hidden');
 	var unchecked = enableDeleteButtons(obj);
+	console.log(unchecked);
 	var disabled = unchecked.length === 0 ? '' : 'disabled'; 
 	var disabledClass = unchecked.length === 0 ? '' : 'disabled';
 	var urgencyPath = obj.urgency ? 'check-yo-self-icons/urgent-active.svg' : 'check-yo-self-icons/urgent.svg';
@@ -330,9 +334,10 @@ function filterUrgent() {
 }
 
 
-function urgentPlaceholderOnLoad() {
-	cardDisplayArea.removeChild(urgentPlaceholder);
-}
+// function urgentPlaceholderOnLoad() {
+// 	console.log('trying to remove')
+// 	cardDisplayArea.removeChild(urgentPlaceholder);
+// }
 
 function urgentPlaceholderOnSearch(array) {
 	if(array.length === 0) {

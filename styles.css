@@ -72,6 +72,7 @@ section {
 	background-color: #587A8A;
 	grid-area: side;
 	display: flex;
+	min-width: 250px;
 }
 
 form {
@@ -280,7 +281,7 @@ button[type="button"]:disabled {
 	background-color: #EF4A23;
 }
 
-@media screen and (max-width: 720px) {
+@media screen and (max-width: 530px) {
 	
 	body {
 		display: block;
@@ -295,13 +296,13 @@ button[type="button"]:disabled {
 		justify-content: space-around;
 	}
 
-	h1 {
-		margin: 15px 0px 0px 0px;
-	}
-
 	header div {
 		margin: 10px auto 0px auto;
 		width: 95%;
+	}
+
+	h1 {
+		margin: 15px 0px 0px 0px;
 	}
 
 	main {
