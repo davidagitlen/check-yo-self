@@ -24,7 +24,6 @@ taskItemInput.addEventListener('keyup', handleTaskItemInput)
 taskTitleInput.addEventListener('keyup', handleMakeTaskButton);
 taskItemButton.addEventListener('click', handleTaskItemAdd);	
 clearAllButton.addEventListener('click', handleClearAll);
-clearAllButton.addEventListener('click', handleMakeTaskButton);
 filterUrgentButton.addEventListener('click', searchUrgent);
 cardDisplayArea.addEventListener('click', deleteTodoList);	
 cardDisplayArea.addEventListener('click', toggleUrgency);
@@ -37,11 +36,6 @@ function handlePageLoad() {
 	handleClearAll();
 	placeholder();
 	urgentPlaceholderOnLoad();
-}
-
-function handleTaskListButton() {
-	createTodoList();
-	handleTaskItemButton();
 }
 
 function handleTaskItemAdd(e) {
@@ -85,6 +79,13 @@ function disableMakeTaskButton() {
 	var li = document.getElementById('item-to-add')
 	var item = document.getElementById('item-to-add-list').contains(li);
 	makeTaskListButton.disabled = !taskTitleInput.value || !item;
+}
+
+function clearAll(){
+	taskTitleInput.value = '';
+	taskItemInput.value = '';
+	itemToAddList.innerHTML = '';
+	createTaskItemArray();
 }
 
 function createTaskItemArray() {
@@ -139,13 +140,13 @@ function displayTodoList(obj) {
 	var unchecked = enableDeleteButtons(obj);
 	var disabled = unchecked.length === 0 ? '' : 'disabled'; 
 	var disabledClass = unchecked.length === 0 ? '' : 'disabled';
-	var listItems = createTodoListTaskList(obj.taskItemArray);
+	// var listItems = createTodoListTaskList(obj.taskItemArray);
 	var urgencyPath = obj.urgency ? 'check-yo-self-icons/urgent-active.svg' : 'check-yo-self-icons/urgent.svg';
 	var urgentClass = obj.urgency ? 'urgent' : '';
 	cardDisplayArea.insertAdjacentHTML('afterbegin', `<article class='todo-list ${urgentClass}' data-id=${obj.id}>
 			<header>${obj.title}</header>
 			<output>
-				${listItems}
+				${createTodoListTaskList(obj.taskItemArray)}
 			</output>
 			<footer>
 				<div>
@@ -201,13 +202,6 @@ function filterTaskItemArray(e) {
 	taskItemArray = localStorage.setItem('taskItemArray', JSON.stringify(filteredTaskItemArray));
 }
 
-function clearAll(){
-	taskTitleInput.value = '';
-	taskItemInput.value = '';
-	itemToAddList.innerHTML = '';
-	createTaskItemArray();
-}
-
 function deleteTodoList(e) {
 	if (e.target.classList.contains('delete-icon')) {
 		e.target.closest('.todo-list').remove();
@@ -241,25 +235,28 @@ function toggleUrgency(e) {
 }
 
 function toggleCheck(e) {
-	if(e.target.className === 'check-off-item'){
+	if(e.target.className === 'check-off-item') {
 		var targetTodoList = getTodoListFromArray(e);
 		targetTodoList.updateTask(e);
-		for (var i = 0; i < targetTodoList.taskItemArray.length; i++){
-			if (targetTodoList.taskItemArray[i].id == e.target.dataset.id){
-				var checkedPath = targetTodoList.taskItemArray[i].checked ? 'check-yo-self-icons/checkbox-active.svg' : 'check-yo-self-icons/checkbox.svg';
-				e.target.setAttribute('src', checkedPath)
-			}
-			toggleItalics(e);
-			targetTodoList.saveToStorage(todoListArray);
-		}
+		toggleCheckLoop(e, targetTodoList);
+		targetTodoList.saveToStorage(todoListArray);
+		toggleItalics(e);
 		disableDeleteButton(e, targetTodoList);
 	}	
 }
 
+function toggleCheckLoop(e, todoList) {
+	todoList.taskItemArray.forEach(function(obj) {
+		if (obj.id == e.target.dataset.id){
+		var checkedPath = obj.checked ? 'check-yo-self-icons/checkbox-active.svg' : 'check-yo-self-icons/checkbox.svg';
+		e.target.setAttribute('src', checkedPath);
+		}
+	});
+}
+
 function toggleItalics(e) {
-	if (e.target.closest('li').classList.contains('italic')) {
-		e.target.closest('li').classList.remove('italic');
-	} else (e.target.closest('li').classList.add('italic'));
+	var checkedListCl = e.target.closest('li').classList;
+	checkedListCl.contains('italic') ? checkedListCl.remove('italic') : checkedListCl.add('italic');
 }
 
 function disableDeleteButton(e, checkedList) {
@@ -268,11 +265,7 @@ function disableDeleteButton(e, checkedList) {
 		return listitem.checked === false; 
 	})
 	deleteButton.disabled = uncheckedItemsArray.length !== 0
-	if (uncheckedItemsArray.length === 0) {
-		deleteButton.classList.remove('disabled')
-	} else {
-		deleteButton.classList.add('disabled');
-	}
+	uncheckedItemsArray.length === 0 ? deleteButton.classList.remove('disabled') : deleteButton.classList.add('disabled');
 }
 
 function enableDeleteButtons(todoList) {
@@ -319,7 +312,7 @@ function searchUrgent(e) {
 			displayTodoList(todoList);
 		});
 		urgentPlaceholderOnSearch(filteredTodos);
-	} else if (!e.target.classList.contains('search-urgent')) {
+	} else {
 		cardDisplayArea.innerHTML = '';
 		repopulateTodoList();
 	}
