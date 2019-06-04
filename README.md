@@ -34,7 +34,7 @@ Check Yo'self allows the user to create custom lists with titles and inventories
 
 ### My Images
 
-![dgitlen-fullsize](../images/screenshots/dgitlen-image-fullsize.png)
-![dgitlen-halfsize](../images/screenshots/dgitlen-halfsize-image.png)
-![dgitlen-mobile-urgent](../images/screenshots/dgitlen-mobile-urgent-filter.png)
+![dgitlen-fullsize](./images/screenshots/dgitlen-image-fullsize.png)
+![dgitlen-halfsize](./images/screenshots/dgitlen-halfsize-image.png)
+![dgitlen-mobile-urgent](./images/screenshots/dgitlen-mobile-urgent-filter.png)
 
