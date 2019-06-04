@@ -140,7 +140,6 @@ function displayTodoList(obj) {
 	var unchecked = enableDeleteButtons(obj);
 	var disabled = unchecked.length === 0 ? '' : 'disabled'; 
 	var disabledClass = unchecked.length === 0 ? '' : 'disabled';
-	// var listItems = createTodoListTaskList(obj.taskItemArray);
 	var urgencyPath = obj.urgency ? 'check-yo-self-icons/urgent-active.svg' : 'check-yo-self-icons/urgent.svg';
 	var urgentClass = obj.urgency ? 'urgent' : '';
 	cardDisplayArea.insertAdjacentHTML('afterbegin', `<article class='todo-list ${urgentClass}' data-id=${obj.id}>
@@ -285,38 +284,51 @@ function handleSearch(e) {
 
 function searchFilter(e, searchText) {
 	if (filterUrgentButton.classList.contains('search-urgent')){
-		var filteredTodos = todoListArray.filter(function(todoList) {
-			return (todoList.title.toLowerCase().includes(searchText) && todoList.urgency === true)
-		});
-		filteredTodos.forEach(function(todoList) {
-			displayTodoList(todoList);
-		});
+		filterTextWithUrgent(searchText);
 	} else {
-		var filteredTodos = todoListArray.filter(function(todoList) {
-			return (todoList.title.toLowerCase().includes(searchText))
-		});
-		filteredTodos.forEach(function(todoList) {
-			displayTodoList(todoList);
-		});
+		filterText(searchText);
 	}
+}
+
+function filterTextWithUrgent(searchText) {
+	var filteredTodos = todoListArray.filter(function(todoList) {
+		return (todoList.title.toLowerCase().includes(searchText) && todoList.urgency === true)
+	});
+	filteredTodos.forEach(function(todoList) {
+		displayTodoList(todoList);
+	});
+}
+
+function filterText(searchText) {
+	var filteredTodos = todoListArray.filter(function(todoList) {
+		return (todoList.title.toLowerCase().includes(searchText))
+	});
+	filteredTodos.forEach(function(todoList) {
+		displayTodoList(todoList);
+	});
 }
 
 function searchUrgent(e) {
 	filterUrgentButton.classList.toggle('search-urgent');
 	if (e.target.classList.contains('search-urgent')) {
-		cardDisplayArea.innerHTML = '';
-		var filteredTodos = todoListArray.filter(function(todoList) {
-			return (todoList.urgency === true)
-		});
-		filteredTodos.forEach(function(todoList) {
-			displayTodoList(todoList);
-		});
-		urgentPlaceholderOnSearch(filteredTodos);
+		filterUrgent();
 	} else {
 		cardDisplayArea.innerHTML = '';
 		repopulateTodoList();
 	}
 }
+
+function filterUrgent() {
+	cardDisplayArea.innerHTML = '';
+	var filteredTodos = todoListArray.filter(function(todoList) {
+		return (todoList.urgency === true)
+	});
+	filteredTodos.forEach(function(todoList) {
+		displayTodoList(todoList);
+	});
+	urgentPlaceholderOnSearch(filteredTodos);
+}
+
 
 function urgentPlaceholderOnLoad() {
 	cardDisplayArea.removeChild(urgentPlaceholder);
