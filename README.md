@@ -29,7 +29,7 @@ Check Yo'self allows the user to create custom lists with titles and inventories
 ### Images from the Comp
 
 ![comp-fullsize](http://frontend.turing.io/assets/images/projects/check-yo-self/check-yo-self-01.jpg)
-![comp-mobile](chttp://frontend.turing.io/assets/images/projects/check-yo-self/check-yo-self-04.jpg)
+![comp-mobile](http://frontend.turing.io/assets/images/projects/check-yo-self/check-yo-self-04.jpg)
 ![comp-filter-urgent](http://frontend.turing.io/assets/images/projects/check-yo-self/check-yo-self-03.jpg)
 
 ### My Images
