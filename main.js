@@ -35,7 +35,8 @@ function handlePageLoad() {
 	repopulateTodoList();
 	handleClearAll();
 	placeholder();
-	urgentPlaceholderOnLoad();
+	// urgentPlaceholderOnLoad();
+	cardDisplayArea.removeChild(urgentPlaceholder);
 }
 
 function handleTaskItemAdd(e) {
@@ -112,8 +113,10 @@ function refillArray() {
 }
 
 function repopulateTodoList() {
+	if (todoListArray.length !== 0) {
 	for (var i = 0; i < todoListArray.length; i++) {
 		displayTodoList(todoListArray[i]); 
+		}
 	}
 }
 
@@ -138,9 +141,9 @@ function createTodoList() {
 function displayTodoList(obj) {
 	placeholderText.classList.add('hidden');
 	var unchecked = enableDeleteButtons(obj);
+	console.log(unchecked);
 	var disabled = unchecked.length === 0 ? '' : 'disabled'; 
 	var disabledClass = unchecked.length === 0 ? '' : 'disabled';
-	// var listItems = createTodoListTaskList(obj.taskItemArray);
 	var urgencyPath = obj.urgency ? 'check-yo-self-icons/urgent-active.svg' : 'check-yo-self-icons/urgent.svg';
 	var urgentClass = obj.urgency ? 'urgent' : '';
 	cardDisplayArea.insertAdjacentHTML('afterbegin', `<article class='todo-list ${urgentClass}' data-id=${obj.id}>
@@ -255,8 +258,8 @@ function toggleCheckLoop(e, todoList) {
 }
 
 function toggleItalics(e) {
-	var checkedListCl = e.target.closest('li').classList;
-	checkedListCl.contains('italic') ? checkedListCl.remove('italic') : checkedListCl.add('italic');
+	var classList = e.target.closest('li').classList;
+	classList.contains('italic') ? classList.remove('italic') : classList.add('italic');
 }
 
 function disableDeleteButton(e, checkedList) {
@@ -285,42 +288,56 @@ function handleSearch(e) {
 
 function searchFilter(e, searchText) {
 	if (filterUrgentButton.classList.contains('search-urgent')){
-		var filteredTodos = todoListArray.filter(function(todoList) {
-			return (todoList.title.toLowerCase().includes(searchText) && todoList.urgency === true)
-		});
-		filteredTodos.forEach(function(todoList) {
-			displayTodoList(todoList);
-		});
+		filterTextWithUrgent(searchText);
 	} else {
-		var filteredTodos = todoListArray.filter(function(todoList) {
-			return (todoList.title.toLowerCase().includes(searchText))
-		});
-		filteredTodos.forEach(function(todoList) {
-			displayTodoList(todoList);
-		});
+		filterText(searchText);
 	}
+}
+
+function filterTextWithUrgent(searchText) {
+	var filteredTodos = todoListArray.filter(function(todoList) {
+		return (todoList.title.toLowerCase().includes(searchText) && todoList.urgency === true)
+	});
+	filteredTodos.forEach(function(todoList) {
+		displayTodoList(todoList);
+	});
+}
+
+function filterText(searchText) {
+	var filteredTodos = todoListArray.filter(function(todoList) {
+		return (todoList.title.toLowerCase().includes(searchText))
+	});
+	filteredTodos.forEach(function(todoList) {
+		displayTodoList(todoList);
+	});
 }
 
 function searchUrgent(e) {
 	filterUrgentButton.classList.toggle('search-urgent');
 	if (e.target.classList.contains('search-urgent')) {
-		cardDisplayArea.innerHTML = '';
-		var filteredTodos = todoListArray.filter(function(todoList) {
-			return (todoList.urgency === true)
-		});
-		filteredTodos.forEach(function(todoList) {
-			displayTodoList(todoList);
-		});
-		urgentPlaceholderOnSearch(filteredTodos);
+		filterUrgent();
 	} else {
 		cardDisplayArea.innerHTML = '';
 		repopulateTodoList();
 	}
 }
 
-function urgentPlaceholderOnLoad() {
-	cardDisplayArea.removeChild(urgentPlaceholder);
+function filterUrgent() {
+	cardDisplayArea.innerHTML = '';
+	var filteredTodos = todoListArray.filter(function(todoList) {
+		return (todoList.urgency === true)
+	});
+	filteredTodos.forEach(function(todoList) {
+		displayTodoList(todoList);
+	});
+	urgentPlaceholderOnSearch(filteredTodos);
 }
+
+
+// function urgentPlaceholderOnLoad() {
+// 	console.log('trying to remove')
+// 	cardDisplayArea.removeChild(urgentPlaceholder);
+// }
 
 function urgentPlaceholderOnSearch(array) {
 	if(array.length === 0) {
