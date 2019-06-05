@@ -19,7 +19,7 @@ header {
 	color: #FFF;
 	display: grid;
 	grid-area: header;
-	grid-template-columns: 50% 15% 1fr;
+	grid-template-columns: 55% 15% 1fr;
 	justify-content: center;
 	align-items: center;
 	padding: 10px;
@@ -31,7 +31,7 @@ header img {
 	border-right: 0px;
 	border-radius: 2.5px 0px 0px 2.5px;
 	margin: 0px 0px 0px 0px;
-	height: 2.5em;
+	height: 2.75em;
 	padding: 7.5px;
 }
 
@@ -39,7 +39,7 @@ header input {
 	font-size: 16px;
 	border-left: 0px;
 	border-radius: 0px 2.5px 2.5px 0px;
-	height: 2.5em;
+	height: 2.75em;
 	width: 100%;
 	margin: 0px 0px 15px 0px;
 }
