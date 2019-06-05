@@ -33,7 +33,7 @@ function handlePageLoad() {
 	refillArray();
 	createTaskItemArray();
 	repopulateTodoList();
-	handleClearAll();
+	// handleClearAll();
 	placeholder();
 	urgentPlaceholderOnLoad();
 }
@@ -56,7 +56,7 @@ function handleClearAll(e) {
 	clearAll();
 	disableClearAll();
 	disableMakeTaskButton();
-	disableTaskItemButton();
+	disableTaskItemButton();	
 }
 
 function handleMakeTaskButton(e) {
@@ -81,7 +81,7 @@ function disableMakeTaskButton() {
 	makeTaskListButton.disabled = !taskTitleInput.value || !item;
 }
 
-function clearAll(){
+function clearAll() {
 	taskTitleInput.value = '';
 	taskItemInput.value = '';
 	itemToAddList.innerHTML = '';
@@ -101,9 +101,7 @@ function placeholder() {
 }
 
 function refillArray() {
-	if (JSON.parse(localStorage.getItem('todoListArray')) === null) {
-		return;
-	} else {
+	if (JSON.parse(localStorage.getItem('todoListArray')) !== null) {
 		var newArray = JSON.parse(localStorage.getItem('todoListArray')).map(function(array) {
 			return new TodoList(array.title, array.id, array.taskItemArray, array.urgency);
 		});
@@ -190,17 +188,16 @@ function deleteTaskItem(e) {
 	filterTaskItemArray(e);
 	}
 	handleMakeTaskButton();
-	placeholder();
 }
 
 function filterTaskItemArray(e) {
 	var taskItemArray = JSON.parse(localStorage.getItem('taskItemArray'));
-	var filteredTaskItemArray = taskItemArray.filter(function(arrayItem){
-		if(arrayItem.id != e.target.dataset.id){
+	var filteredTaskItemArray = taskItemArray.filter(function(arrayItem) {
+		if(arrayItem.id != e.target.dataset.id) {
 			return arrayItem
 		}
 	})
-	taskItemArray = localStorage.setItem('taskItemArray', JSON.stringify(filteredTaskItemArray));
+	localStorage.setItem('taskItemArray', JSON.stringify(filteredTaskItemArray));
 }
 
 function deleteTodoList(e) {
@@ -248,7 +245,7 @@ function toggleCheck(e) {
 
 function toggleCheckLoop(e, todoList) {
 	todoList.taskItemArray.forEach(function(obj) {
-		if (obj.id == e.target.dataset.id){
+		if (obj.id == e.target.dataset.id) {
 		var checkedPath = obj.checked ? 'check-yo-self-icons/checkbox-active.svg' : 'check-yo-self-icons/checkbox.svg';
 		e.target.setAttribute('src', checkedPath);
 		}
@@ -270,8 +267,8 @@ function disableDeleteButton(e, checkedList) {
 }
 
 function enableDeleteButtons(todoList) {
-	for (var i = 0; i < todoList.taskItemArray.length; i++){
-		var uncheckedItemsArray = todoList.taskItemArray.filter(function(listitem){
+	for (var i = 0; i < todoList.taskItemArray.length; i++) {
+		var uncheckedItemsArray = todoList.taskItemArray.filter(function(listitem) {
 			return listitem.checked === false;
 		});
 	}
@@ -285,7 +282,7 @@ function handleSearch(e) {
 }
 
 function searchFilter(e, searchText) {
-	if (filterUrgentButton.classList.contains('search-urgent')){
+	if (filterUrgentButton.classList.contains('search-urgent')) {
 		filterTextWithUrgent(searchText);
 	} else {
 		filterText(searchText);
