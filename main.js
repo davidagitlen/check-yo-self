@@ -33,7 +33,6 @@ function handlePageLoad() {
 	refillArray();
 	createTaskItemArray();
 	repopulateTodoList();
-	// handleClearAll();
 	placeholder();
 	urgentPlaceholderOnLoad();
 }
