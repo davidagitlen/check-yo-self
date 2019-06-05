@@ -239,7 +239,8 @@ button[type="button"]:disabled {
 }
 
 .placeholder-text {
-	height: 100px;
+	min-height: 100px;
+	height: max-content;
 	width: 90%;
 	padding: 10px;
 	text-align: center;
