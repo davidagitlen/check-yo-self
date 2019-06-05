@@ -21,6 +21,7 @@ Check Yo'self is the fourth, and final, project of Module One at the Turing Scho
 This project combines the challenges of setting and getting information in local storage, as well as accessing arrays of objects nested within an array of objects. 
 
 [GitHub Pages Link](https://davidagitlen.github.io/check-yo-self/ "GitHub Pages Link")
+
 [GitHub Repository Link](https://github.com/davidagitlen/check-yo-self "GitHub Repository Link")
 
 ## User-facing Features
