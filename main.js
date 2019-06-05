@@ -38,7 +38,7 @@ function handlePageLoad() {
 }
 
 function handleTaskItemAdd(e) {
-	e.preventDefault();
+	e.preventDefault();	
 	addTaskListItem(e, taskItemInput.value, Date.now(), false);
 	disableTaskItemButton();
 	disableClearAll();
@@ -131,7 +131,7 @@ function createTodoList() {
 	taskTitleInput.value = '';
 	itemToAddList.innerHTML = '';
 	displayTodoList(todoList);
-	createTaskItemArray();
+	localStorage.removeItem('taskItemArray');
 }
 
 function displayTodoList(obj) {
