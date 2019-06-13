@@ -58,7 +58,7 @@ h1 {
 	margin: 0px 10px;
 }
 
-span{
+span {
 	color: #FFC30C;
 }
 
@@ -141,9 +141,9 @@ main article {
 	border: 1.5px solid #C7D3D8;
 	break-inside: avoid;
 	margin: 0px auto 30px auto;
-	min-height: 100px;
-	height: max-content;
-	width: 90%;
+	min-height: max-content;
+	/*height: max-content;
+*/	width: 90%;
 }
 
 article header {
